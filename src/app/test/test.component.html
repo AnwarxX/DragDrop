@@ -7,21 +7,32 @@
 </div> -->
 
 <!-- AddModal -->
-<form   action="" >
+<form [formGroup]="form" (ngSubmit)="authorization()">
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
         </div>
         <div class="modal-body">
-            <div class="form-group">
-                <label for="TaskName">Task Name</label>
-                <input formControlName="TaskName" type="text" name="taskName" #taskName class="form-control" aria-describedby="emailHelp" placeholder="Enter Task Name">              
+            <div class="form-group ">
+                <div class="w-100">
+                <label >Task Name</label>
+                <input formControlName="TaskName" type="text" name="taskName"  class="form-control" aria-describedby="emailHelp" placeholder="Enter Task Name">   
+            </div>
+            <label class="mt-2">Task Duartion</label>
+
+            <div class="w-100 d-flex">
+                <input formControlName="TaskDurationH" type="number" name="TaskDurationH"  class="form-control w-25 " aria-describedby="emailHelp" placeholder="hour"> 
+                <h1>:</h1>
+                <input formControlName="TaskDurationM" type="number" name="TaskDurationM" class="form-control w-25" aria-describedby="emailHelp" placeholder="min"> 
+            </div>
+                    
+                    
             </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary"  (click)="Add(taskName.value)">Add</button>
+          <button type="submit" class="btn btn-primary" >Add</button>
         </div>
       </div>
     </div>

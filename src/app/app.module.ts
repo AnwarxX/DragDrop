@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { TestComponent } from './test/test.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavbarComponent } from './navbar/navbar.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -19,6 +20,8 @@ import { NavbarComponent } from './navbar/navbar.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     DragDropModule,
+    FormsModule,
+    ReactiveFormsModule
     
     
   ],

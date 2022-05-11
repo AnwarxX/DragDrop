@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormArray, NgForm } from '@angular/forms'
-
+import { FormGroup, FormControl,Validators, FormArray, NgForm } from '@angular/forms'
 import { CdkDragDrop,moveItemInArray, transferArrayItem } from "@angular/cdk/drag-drop";
+import { NodeService } from '../Services/node.service';
 
 @Component({
   selector: 'app-test',
@@ -9,6 +9,11 @@ import { CdkDragDrop,moveItemInArray, transferArrayItem } from "@angular/cdk/dra
   styleUrls: ['./test.component.css']
 })
 export class TestComponent implements OnInit {
+  form = new FormGroup({
+    taskName:new FormControl("",Validators.compose([Validators.required])),
+    TaskDurationH:new FormControl("",Validators.compose([Validators.required])),
+    TaskDurationM:new FormControl("",Validators.compose([Validators.required])),
+  })
 
   theArray:any;
   addBtn(array1:any){
@@ -42,7 +47,7 @@ export class TestComponent implements OnInit {
   ]
 
 
-  constructor() { }
+  constructor(public Service:NodeService) { }
 
   ngOnInit(): void {
   }
@@ -69,5 +74,13 @@ export class TestComponent implements OnInit {
       event.currentIndex);
   }
 
+  authorization()
+  {
+  
+    //send a post request with the table name and column to this endpoit in the backend to retrive all the distinct values in that column
+    this.Service.postFun('authorization',this.form.value).subscribe(data => {
 
+  })
+  }
+  
 }
