@@ -7,7 +7,7 @@
 </div> -->
 
 <!-- AddTaskModal -->
-<form [formGroup]="form" (ngSubmit)="authorization()">
+<form [formGroup]="tasksForm" (ngSubmit)="addtask()">
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -39,8 +39,8 @@
   </div>
 </form>
 <!-- AddMachineModal -->
-<form [formGroup]="form" (ngSubmit)="authorization()">
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<form [formGroup]="machinesForm" (ngSubmit)="addMachine()">
+    <div class="modal fade" id="addMachine" tabindex="-1" role="dialog" aria-labelledby="addMachineLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -48,16 +48,9 @@
             <div class="modal-body">
                 <div class="form-group ">
                     <div class="w-100">
-                    <label >Task Name</label>
-                    <input formControlName="taskName" type="text" name="taskName"  class="form-control" aria-describedby="emailHelp" placeholder="Enter Task Name">   
-                </div>
-                <label class="mt-2">Task Duartion</label>
-    
-                <div class="w-100 d-flex">
-                    <input formControlName="TaskDurationH" type="number" name="TaskDurationH"  class="form-control w-25 " aria-describedby="emailHelp" placeholder="hour"> 
-                    <h1>:</h1>
-                    <input formControlName="TaskDurationM" type="number" name="TaskDurationM" class="form-control w-25" aria-describedby="emailHelp" placeholder="min"> 
-                </div>
+                    <label >Machine Name</label>
+                    <input formControlName="machineName" type="text" name="machineName"  class="form-control" aria-describedby="emailHelp" placeholder="Enter Machine Name">   
+                </div>             
                         
                         
                 </div>
@@ -72,7 +65,8 @@
     </form>
 
 <div class="container mt-5">
-    
+    <div class=" col-md-12 d-flex justify-content-center mb-3"><button class="btn btn-primary "  data-bs-toggle="modal" data-bs-target="#addMachine" > Add Machine</button></div>
+
     <div class="row justify-content-center">
         <div class="col-md-3 me-2 ">
             <div class="card " style="width: 18rem;">

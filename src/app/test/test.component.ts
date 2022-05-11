@@ -9,10 +9,13 @@ import { NodeService } from '../Services/node.service';
   styleUrls: ['./test.component.css']
 })
 export class TestComponent implements OnInit {
-  form = new FormGroup({
+  tasksForm = new FormGroup({
     taskName:new FormControl("",Validators.compose([Validators.required])),
     TaskDurationH:new FormControl("",Validators.compose([Validators.required])),
     TaskDurationM:new FormControl("",Validators.compose([Validators.required])),
+  })
+  machinesForm = new FormGroup({
+    machineName:new FormControl("",Validators.compose([Validators.required])),
   })
 
   theArray:any;
@@ -20,8 +23,14 @@ export class TestComponent implements OnInit {
   addBtn(array1:any){
     this.theArray=array1
   }
-  Add(PARAM: any) {
-    this.Service.postFun('importTask',this.form.value).subscribe(data => {
+  addtask() {
+    this.Service.postFun('importTask',this.tasksForm.value).subscribe(data => {
+      console.log(data);
+      
+    })
+  }
+  addMachine() {
+    this.Service.postFun('importMachine',this.machinesForm.value).subscribe(data => {
       console.log(data);
       
     })
@@ -81,7 +90,7 @@ export class TestComponent implements OnInit {
   {
   
     //send a post request with the table name and column to this endpoit in the backend to retrive all the distinct values in that column
-    this.Service.postFun('authorization',this.form.value).subscribe(data => {
+    this.Service.postFun('authorization',this.tasksForm.value).subscribe(data => {
 
   })
   }
