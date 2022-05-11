@@ -16,12 +16,15 @@ export class TestComponent implements OnInit {
   })
 
   theArray:any;
+  task:any;
   addBtn(array1:any){
     this.theArray=array1
   }
   Add(PARAM: any) {
-    console.log(PARAM);
-    this.theArray.push(PARAM) 
+    this.Service.postFun('importTask',this.form.value).subscribe(data => {
+      console.log(data);
+      
+    })
   }
   Delete(element:any,array:any){
     console.log(array);
