@@ -72,21 +72,19 @@
             <div class="card " style="width: 18rem;">
                 <div class="card-header justify-content-center">
                     <div class="row ">
-                        <div class="col-md-6 ">{{i.name}}</div> 
-                        <div class=" col-md-6 d-flex justify-content-end"><button class="btn btn-success addBtn p-1"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)=addBtn(i.id)> Add Task</button></div>
+                        <div class="col-md-6 ">{{i.id}}</div> 
+                        <div class=" col-md-6 d-flex justify-content-end"><button class="btn btn-success addBtn p-1"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)=addBtn(i.id)> Add Task</button>
+                            <button type="button" class="btn btn-danger deltBtn mx-1" (click)="deleteMachine(i.id)">Delete</button></div>
 
                     </div>
                 </div>
-                <ul style="height: 250px;border:solid 1px #000;overflow-y: scroll;" class="list-group list-group-flush scrollbar" id="test2" cdkDropList [cdkDropListConnectedTo]="['animalsWishList','animalsPets','test1','ownedAnimals']" (cdkDropListDropped)="onDrop($event)" [cdkDropListData]="test2">
-                    <div *ngFor="let j of tasks">
-                        <li class="list-group-item" cdkDrag class="drag-item"  *ngIf="j.machineId==i.id">
-                          <div class="row">
-      
-                          <div class="col-md-6">{{j.name}}</div>  <div class="col-md-6 d-flex justify-content-end"><button type="button" class="btn btn-danger deltBtn" (click)="Delete(i)">Delete</button></div>
-                          <p>{{counters[j.id]}}</p>
-                          </div>
-                        </li>
-                    </div>
+                <ul style="height: 250px;border:solid 1px #000;overflow-y: scroll;" class="list-group list-group-flush scrollbar" id="{{i.id}}" cdkDropList [cdkDropListConnectedTo]="machineIds" (cdkDropListDropped)="onDrop($event)" [cdkDropListData]="tasks[i.id]">
+                    <li class="list-group-item" cdkDrag class="drag-item" *ngFor="let j of tasks[i.id]">
+                        <div class="row">
+                        <div class="col-md-6">{{j.name}}</div>  <div class="col-md-6 d-flex justify-content-end"><button type="button" class="btn btn-danger deltBtn" (click)="deleteTask(j.id)">Delete</button></div>
+                        <p>{{counters[j.id]}}</p>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>

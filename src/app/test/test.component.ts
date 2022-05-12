@@ -24,16 +24,20 @@ export class TestComponent implements OnInit {
   theArray:any;
   task:any;
   counters:any;
+  machineIds:any;
   constructor(public Service:NodeService) { 
     this.getMachines()
     this.getTasks()
+    console.log(this.tasks);
+    console.log(this.counters);
+    
     interval(1000).subscribe((ev)=>{
       this.counters={}
-      for (let i = 0; i < this.tasks.length; i++) {
-        this.counters[this.tasks[i].id]=this.timeCounter(this.tasks[i].endDate)
+      for (let i = 0; i < Object.keys(this.tasks).length; i++) {
+        for (let j = 0; j < this.tasks[Object.keys(this.tasks)[i]].length; j++) {
+          this.counters[this.tasks[Object.keys(this.tasks)[i]][j].id]=this.timeCounter(this.tasks[Object.keys(this.tasks)[i]][j].endDate)
+        }
       }
-      console.log(this.counters);
-      
     })
   }
   ngOnInit(): void {
@@ -54,11 +58,9 @@ export class TestComponent implements OnInit {
         event.currentIndex
       )
     }
-    console.log(
-      event.previousContainer.data,
-      event.container.data,
-      event.previousIndex,
-      event.currentIndex);
+    console.log(event.previousContainer.id);
+    let Task=event.container.data[0]['id']
+    this.updateTask(event.container.id,event.container.data[0]['id'])
   }
   authorization()
   {
@@ -72,40 +74,50 @@ export class TestComponent implements OnInit {
     this.tasksForm.get('machineId').setValue(machineId)
     console.log(this.tasksForm.value);
   }
-  addtask() {
-    this.Service.postFun('importTask',this.tasksForm.value).subscribe(data => {
+  updateTask(machineId:any,taskId:any) {
+    this.Service.postFun('updateTask',{machineId,taskId}).subscribe(data => {
       console.log(data);
-      
+      this.getTasks()
     })
   }
   addMachine() {
     this.Service.postFun('importMachine',this.machinesForm.value).subscribe(data => {
       console.log(data);
-      
+      this.getMachines()
     })
   }
   addTask() {
-    this.Service.postFun('importTasks',this.tasksForm .value).subscribe(data => {
+    this.Service.postFun('importTasks',this.tasksForm.value).subscribe(data => {
       console.log(data);
-      
+      this.getTasks()
     })
   }
-  Delete(element:any,array:any){
-    console.log(array);
-
-    // this.ownedAnimals.splice(array.indexOf(element),1)
-
+  deleteMachine(element:any){
+    this.Service.postFun('deleteMachine',{id:element}).subscribe(data => {
+      console.log(data);
+      this.getMachines()
+    })
+  }
+  deleteTask(element:any){
+    this.Service.postFun('deleteTask',{id:element}).subscribe(data => {
+      console.log(data);
+      this.getTasks()
+    })
   }
   getMachines(){
+    this.machineIds=[]
     this.Service.getFun('getMachine').subscribe(data => {
       this.machines=data;
+      for (let i = 0; i < this.machines.length; i++) {
+        this.machineIds.push(this.machines[i].id.toString())
+      }
+      console.log(this.machineIds);
     })
   }
   getTasks(){
     this.Service.getFun('getTasks').subscribe(data => {
-      console.log(data);
-      
       this.tasks=data;
+      console.log(this.tasks[1]);
     })
   }
   timeCounter(endDate){
@@ -114,8 +126,6 @@ export class TestComponent implements OnInit {
         var minutes = Math.floor(seconds/60);
         var hours = Math.floor(minutes/60);
         var days = Math.floor(hours/24);
-        console.log("seconds",endDate);
-        
         hours = hours-(days*24);
         minutes = minutes-(days*24*60)-(hours*60);
         seconds = seconds-(days*24*60*60)-(hours*60*60)-(minutes*60);
