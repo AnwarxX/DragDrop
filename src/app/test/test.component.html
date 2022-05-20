@@ -81,7 +81,7 @@
                 <ul style="height: 250px;border:solid 1px #000;overflow-y: scroll;" class="list-group list-group-flush scrollbar" id="{{i.id}}" cdkDropList [cdkDropListConnectedTo]="machineIds" (cdkDropListDropped)="onDrop($event)" [cdkDropListData]="tasks[i.id]">
                     <li class="list-group-item" cdkDrag class="drag-item" *ngFor="let j of tasks[i.id]">
                         <div class="row">
-                        <div class="col-md-6">{{j.name}}</div>  <div class="col-md-6 d-flex justify-content-end"><button type="button" class="btn btn-danger deltBtn" (click)="deleteTask(j.id)">Delete</button></div>
+                        <div class="col-md-6">Task {{j.id}}</div>  <div class="col-md-6 d-flex justify-content-end"><button type="button" class="btn btn-danger deltBtn" (click)="deleteTask(j.id)">Delete</button></div>
                         <p>{{counters[j.id]}}</p>
                         </div>
                     </li>

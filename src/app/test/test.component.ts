@@ -52,8 +52,8 @@ export class TestComponent implements OnInit {
     this.tasksForm.get('machineId').setValue(machineId)
     console.log(this.tasksForm.value);
   }
-  updateTask(machineId:any,taskId:any) {
-    this.Service.postFun('updateTask',{machineId,taskId}).subscribe(data => {
+  updateTask(machineId:any,taskId:any,machineIdBefore:any,taskIDsBefore:any) {
+    this.Service.postFun('updateTask',{machineId,taskId,machineIdBefore,taskIDsBefore}).subscribe(data => {
       console.log(data);
       // this.getTasks()
     })
@@ -95,6 +95,8 @@ export class TestComponent implements OnInit {
   }
   getTasks(){
     this.Service.getFun('getTasks').subscribe(data => {
+      console.log(data);
+      
       this.tasks=data;
     })
   }
@@ -128,11 +130,20 @@ export class TestComponent implements OnInit {
         event.currentIndex
       )
     }
-    console.log(event.container.data['id']);
-    this.updateTask(event.container.id,event.container.data[0]['id'])
-    this.countDownTest(event.container.id)
+    console.log(event.container);
+    let taskIDs=[];
+    let taskIDsBefore=[];
+    for (let i = 0; i < event.container.data.length; i++) {
+      taskIDs.push(event.container.data[i]['id'])
+    }
+    for (let i = 0; i < event.previousContainer.data.length; i++) {
+      taskIDsBefore.push(event.previousContainer.data[i]['id'])
+    }
+    console.log(taskIDs,taskIDsBefore);
+    this.updateTask(event.container.id,taskIDs,event.previousContainer.id,taskIDsBefore)
+    this.timeCalculation(event.container.data[0]['id'])
   }
-  countDownTest(id:any){
+  timeCalculation(id:any){
     
   }
 }
