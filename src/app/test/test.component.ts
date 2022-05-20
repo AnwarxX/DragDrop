@@ -96,7 +96,6 @@ export class TestComponent implements OnInit {
   getTasks(){
     this.Service.getFun('getTasks').subscribe(data => {
       console.log(data);
-      
       this.tasks=data;
     })
   }
@@ -115,6 +114,7 @@ export class TestComponent implements OnInit {
     }
   }
   onDrop(event:CdkDragDrop<string []>){
+    let oldTask=event.container.data[0]['id'];
     if (event.previousContainer === event.container) {
         moveItemInArray(
         event.container.data,
@@ -130,7 +130,8 @@ export class TestComponent implements OnInit {
         event.currentIndex
       )
     }
-    console.log(event.container);
+    console.log(event.container.id,event.previousContainer.id);
+    console.log(event.container.data,event.previousContainer.data);
     let taskIDs=[];
     let taskIDsBefore=[];
     for (let i = 0; i < event.container.data.length; i++) {
@@ -139,11 +140,14 @@ export class TestComponent implements OnInit {
     for (let i = 0; i < event.previousContainer.data.length; i++) {
       taskIDsBefore.push(event.previousContainer.data[i]['id'])
     }
-    console.log(taskIDs,taskIDsBefore);
     this.updateTask(event.container.id,taskIDs,event.previousContainer.id,taskIDsBefore)
-    this.timeCalculation(event.container.data[0]['id'])
+    this.timeCalculation(event.container.data[0]['id'],oldTask)
   }
-  timeCalculation(id:any){
-    
+  timeCalculation(id:any,oldTask:any){
+    if (oldTask!=id) {
+      this.Service.postFun('changeTime',{id,oldTask}).subscribe(data => {
+        this.getTasks()
+      })
+    }
   }
 }
