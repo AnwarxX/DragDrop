@@ -30,37 +30,15 @@ export class TestComponent implements OnInit {
     this.getTasks()
     console.log(this.tasks);
     console.log(this.counters);
-    
     interval(1000).subscribe((ev)=>{
       this.counters={}
       for (let i = 0; i < Object.keys(this.tasks).length; i++) {
-        for (let j = 0; j < this.tasks[Object.keys(this.tasks)[i]].length; j++) {
-          this.counters[this.tasks[Object.keys(this.tasks)[i]][j].id]=this.timeCounter(this.tasks[Object.keys(this.tasks)[i]][j].endDate)
-        }
+        if(this.tasks[Object.keys(this.tasks)[i]][0]!=undefined)
+          this.counters[this.tasks[Object.keys(this.tasks)[i]][0].id]=this.timeCounter(this.tasks[Object.keys(this.tasks)[i]][0].endDate)
       }
     })
   }
   ngOnInit(): void {
-  }
-  onDrop(event:CdkDragDrop<string []>){
-    if (event.previousContainer === event.container) {
-        moveItemInArray(
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      )
-    }
-    else{
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      )
-    }
-    console.log(event.previousContainer.id);
-    let Task=event.container.data[0]['id']
-    this.updateTask(event.container.id,event.container.data[0]['id'])
   }
   authorization()
   {
@@ -77,7 +55,7 @@ export class TestComponent implements OnInit {
   updateTask(machineId:any,taskId:any) {
     this.Service.postFun('updateTask',{machineId,taskId}).subscribe(data => {
       console.log(data);
-      this.getTasks()
+      // this.getTasks()
     })
   }
   addMachine() {
@@ -87,6 +65,7 @@ export class TestComponent implements OnInit {
     })
   }
   addTask() {
+    console.log(this.tasksForm.value);
     this.Service.postFun('importTasks',this.tasksForm.value).subscribe(data => {
       console.log(data);
       this.getTasks()
@@ -117,7 +96,6 @@ export class TestComponent implements OnInit {
   getTasks(){
     this.Service.getFun('getTasks').subscribe(data => {
       this.tasks=data;
-      console.log(this.tasks[1]);
     })
   }
   timeCounter(endDate){
@@ -133,5 +111,28 @@ export class TestComponent implements OnInit {
     } catch (error:any) {
       console.log(error.message);
     }
+  }
+  onDrop(event:CdkDragDrop<string []>){
+    if (event.previousContainer === event.container) {
+        moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      )
+    }
+    else{
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      )
+    }
+    console.log(event.container.data['id']);
+    this.updateTask(event.container.id,event.container.data[0]['id'])
+    this.countDownTest(event.container.id)
+  }
+  countDownTest(id:any){
+    
   }
 }
